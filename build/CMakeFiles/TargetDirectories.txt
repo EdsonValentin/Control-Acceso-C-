@@ -1,0 +1,3 @@
+/workspaces/Control-Acceso-C-/build/CMakeFiles/Acceso_App.dir
+/workspaces/Control-Acceso-C-/build/CMakeFiles/edit_cache.dir
+/workspaces/Control-Acceso-C-/build/CMakeFiles/rebuild_cache.dir

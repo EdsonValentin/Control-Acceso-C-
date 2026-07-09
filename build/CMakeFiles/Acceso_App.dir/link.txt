@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Acceso_App.dir/main.cpp.o CMakeFiles/Acceso_App.dir/src/Usuario.cpp.o -o Acceso_App 
