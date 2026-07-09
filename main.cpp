@@ -1,57 +1,75 @@
 #include <iostream>
-#include <memory>    // Librería obligatoria para Smart Pointers (make_unique)
-#include "Usuario.h" // Importamos nuestro plano de usuarios
+#include <memory>    // Requisito para Smart Pointers (make_unique)
+#include "Usuario.h" // Cabecera de usuarios
+#include "Relay.h"   // Cabecera del cerrojo eléctrico
 
 using namespace std;
 
 int main() {
     cout << "====================================================" << endl;
-    cout << "===   SISTEMA DE CONTROL DE ACCESO INTELIGENTE   ===" << endl;
+    cout << "===  SISTEMA DE ACCESO INTELIGENTE (POO + HARDWARE) ===" << endl;
     cout << "====================================================" << endl;
 
-    // 1. CREAMOS LOS USUARIOS CON PUNTEROS INTELIGENTES (RAM SEGURA)
-    // Reservamos habitaciones limpias en la memoria RAM para cada tipo de usuario
+    // 1. INSTANCIAMOS EL HARDWARE: Cerrojo magnético en el pin 26
+    auto cerrojoPuerta = make_unique<Relay>(26);
+
+    // 2. CREAMOS LAS IDENTIFICACIONES (SMART POINTERS / RAM SEGURA)
     auto juanAdmin = make_unique<Administrador>("Juan (Admin)");
     auto mariaInvitadoValido = make_unique<Invitado>("Maria (Invitado)", true);
     auto carlosInvitadoVencido = make_unique<Invitado>("Carlos (Invitado)", false);
 
-    // 2. EL PUNTERO POLIMÓRFICO INTELIGENTE
-    // Creamos una variable abstracta de la clase base 'Usuario'
-    unique_ptr<Usuario> puertaEscaner = nullptr;
+    // 3. EL ESCÁNER POLIMÓRFICO INTELIGENTE (Arranca vacío)
+    unique_ptr<Usuario> escanerPuerta = nullptr;
 
-    // --- ESCENARIO 1: Juan pasa su tarjeta por el escaner ---
-    cout << "\n>>> [Escaneando Tarjeta 1...] <<<" << endl;
-    puertaEscaner = move(juanAdmin); // Transferimos la llave de Juan al escaner
-    
-    cout << "Usuario: " << puertaEscaner->obtenerNombre() << endl;
-    if (puertaEscaner->tieneAcceso()) {
-        cout << "🔒 [ACCESO PERMITIDO]: Abriendo puerta magnetica..." << endl;
+
+    // =================================================================
+    // SIMULACIÓN DE ESCENARIOS EN TIEMPO REAL
+    // =================================================================
+
+    cout << "\n>>> [ESCENARIO 1: LLEGA EL ADMINISTRADOR] <<<" << endl;
+    escanerPuerta = move(juanAdmin); // Juan aproxima su tarjeta al escáner
+    cout << "Tarjeta detectada -> " << escanerPuerta->obtenerNombre() << endl;
+
+    if (escanerPuerta->tieneAcceso()) {
+        cout << "🔒 [VALIDADO]: Permisos concedidos de Administrador." << endl;
+        cerrojoPuerta->activar(); // Abre físicamente el cerrojo
     } else {
-        cout << "❌ [ACCESO DENEGADO]: Puerta bloqueada." << endl;
+        cout << "❌ [RECHAZADO]: Sin credenciales válidas." << endl;
+        cerrojoPuerta->desactivar();
     }
 
-    // --- ESCENARIO 2: Maria pasa su tarjeta (Pase Válido) ---
-    cout << "\n>>> [Escaneando Tarjeta 2...] <<<" << endl;
-    puertaEscaner = move(mariaInvitadoValido); // El escaner destruye a Juan y recibe a Maria
-    
-    cout << "Usuario: " << puertaEscaner->obtenerNombre() << endl;
-    if (puertaEscaner->tieneAcceso()) {
-        cout << "🔒 [ACCESO PERMITIDO]: Abriendo puerta magnetica..." << endl;
+
+    cout << "\n>>> [ESCENARIO 2: LLEGA INVITADO CON PASE VIGENTE] <<<" << endl;
+    // El escáner destruye de la RAM los datos de Juan automáticamente al recibir a María
+    escanerPuerta = move(mariaInvitadoValido); 
+    cout << "Tarjeta detectada -> " << escanerPuerta->obtenerNombre() << endl;
+
+    if (escanerPuerta->tieneAcceso()) {
+        cout << "🔒 [VALIDADO]: Pase temporal vigente detectado." << endl;
+        cerrojoPuerta->activar(); 
     } else {
-        cout << "❌ [ACCESO DENEGADO]: Puerta bloqueada." << endl;
+        cout << "❌ [RECHAZADO]: Sin credenciales válidas." << endl;
+        cerrojoPuerta->desactivar();
     }
 
-    // --- ESCENARIO 3: Carlos pasa su tarjeta (Pase Vencido) ---
-    cout << "\n>>> [Escaneando Tarjeta 3...] <<<" << endl;
-    puertaEscaner = move(carlosInvitadoVencido); // El escaner destruye a Maria y recibe a Carlos
-    
-    cout << "Usuario: " << puertaEscaner->obtenerNombre() << endl;
-    if (puertaEscaner->tieneAcceso()) {
-        cout << "🔒 [ACCESO PERMITIDO]: Abriendo puerta magnetica..." << endl;
+
+    cout << "\n>>> [ESCENARIO 3: LLEGA INVITADO CON PASE VENCIDO] <<<" << endl;
+    // El escáner destruye de la RAM a María automáticamente al recibir a Carlos
+    escanerPuerta = move(carlosInvitadoVencido); 
+    cout << "Tarjeta detectada -> " << escanerPuerta->obtenerNombre() << endl;
+
+    if (escanerPuerta->tieneAcceso()) {
+        cout << "🔒 [VALIDADO]: Acceso correcto." << endl;
+        cerrojoPuerta->activar();
     } else {
-        cout << "❌ [ACCESO DENEGADO]: Puerta bloqueada." << endl;
+        cout << "❌ [RECHAZADO]: ¡Alerta! El pase del invitado ha caducado." << endl;
+        cerrojoPuerta->desactivar(); // Bloquea y asegura el cerrojo eléctrico
     }
 
-    cout << "\n[FIN]: El programa termina y los Smart Pointers limpian la RAM solo." << endl;
+
+    cout << "\n====================================================" << endl;
+    cout << "[FIN]: Sesion terminada. C++ libera la RAM del escaner solo." << endl;
+    cout << "====================================================" << endl;
+    
     return 0;
 }

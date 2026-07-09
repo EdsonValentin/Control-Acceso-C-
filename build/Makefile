@@ -153,6 +153,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acceso_App.dir/build.make CMakeFiles/Acceso_App.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/Relay.o: src/Relay.cpp.o
+.PHONY : src/Relay.o
+
+# target to build an object file
+src/Relay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acceso_App.dir/build.make CMakeFiles/Acceso_App.dir/src/Relay.cpp.o
+.PHONY : src/Relay.cpp.o
+
+src/Relay.i: src/Relay.cpp.i
+.PHONY : src/Relay.i
+
+# target to preprocess a source file
+src/Relay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acceso_App.dir/build.make CMakeFiles/Acceso_App.dir/src/Relay.cpp.i
+.PHONY : src/Relay.cpp.i
+
+src/Relay.s: src/Relay.cpp.s
+.PHONY : src/Relay.s
+
+# target to generate assembly for a file
+src/Relay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acceso_App.dir/build.make CMakeFiles/Acceso_App.dir/src/Relay.cpp.s
+.PHONY : src/Relay.cpp.s
+
 src/Usuario.o: src/Usuario.cpp.o
 .PHONY : src/Usuario.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/Relay.o"
+	@echo "... src/Relay.i"
+	@echo "... src/Relay.s"
 	@echo "... src/Usuario.o"
 	@echo "... src/Usuario.i"
 	@echo "... src/Usuario.s"

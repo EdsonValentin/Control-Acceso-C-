@@ -15,4 +15,5 @@ include_directories(include)
 add_executable(Acceso_App 
     main.cpp
     src/Usuario.cpp
+    src/Relay.cpp
 )

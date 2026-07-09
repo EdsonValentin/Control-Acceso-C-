@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspaces/Control-Acceso-C-/main.cpp" "CMakeFiles/Acceso_App.dir/main.cpp.o" "gcc" "CMakeFiles/Acceso_App.dir/main.cpp.o.d"
+  "/workspaces/Control-Acceso-C-/src/Relay.cpp" "CMakeFiles/Acceso_App.dir/src/Relay.cpp.o" "gcc" "CMakeFiles/Acceso_App.dir/src/Relay.cpp.o.d"
   "/workspaces/Control-Acceso-C-/src/Usuario.cpp" "CMakeFiles/Acceso_App.dir/src/Usuario.cpp.o" "gcc" "CMakeFiles/Acceso_App.dir/src/Usuario.cpp.o.d"
   )
 
